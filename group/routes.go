@@ -1,18 +1,41 @@
 package group
 
-import "github.com/gin-gonic/gin"
-import "bitbucket.org/devmach/gomeetups/models"
+import (
+	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gin-gonic/gin"
+)
 
-func handleSearch(service models.GroupService) gin.HandlerFunc {
+func handleSearch(
+	groupService models.GroupService,
+	addressService models.AddressService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		var params = models.GroupSearchValidParams{
+		var params = models.ValidGroupSearchParams{
 			Name:        c.DefaultQuery("name", ""),
 			Description: c.DefaultQuery("description", ""),
 		}
 
-		if services, err := service.SearchGroups(&params); err == nil {
-			c.JSON(200, gin.H{"entries": services})
+		if groups, err := groupService.SearchGroups(&params); err == nil {
+			var idx = 0
+			var groupIds = make([]string, len(groups))
+
+			for id := range groups {
+				groupIds[idx] = id
+				idx++
+			}
+
+			addresses, _ := addressService.GetByGroupId(groupIds)
+
+			for id := range groups {
+				if _, ok := addresses[id]; ok {
+					groups[id].Address = addresses[id]
+				}
+			}
+
+			c.JSON(200, gin.H{
+				"entries": groups,
+			})
+
 		} else {
 			c.JSON(200, gin.H{"error": err})
 		}
@@ -20,10 +43,19 @@ func handleSearch(service models.GroupService) gin.HandlerFunc {
 	}
 }
 
-func handleGroupDetails(service models.GroupService) gin.HandlerFunc {
+func handleGroupDetails(
+	groupService models.GroupService,
+	addressService models.AddressService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		name := c.Params.ByName("name")
-		if group, err := service.GroupDetails(name); err == nil {
+		if group, err := groupService.GroupDetails(name); err == nil {
+
+			addresses, _ := addressService.GetByGroupId([]string{group.GroupID})
+
+			if _, ok := addresses[group.GroupID]; ok {
+				group.Address = addresses[group.GroupID]
+			}
+
 			c.JSON(200, gin.H{"group": group})
 		} else {
 			c.JSON(404, gin.H{"error": err.Error()})
@@ -31,7 +63,7 @@ func handleGroupDetails(service models.GroupService) gin.HandlerFunc {
 	}
 }
 
-func Router(router *gin.RouterGroup, service models.GroupService) {
-	router.GET("/", handleSearch(service))
-	router.GET("/:name", handleGroupDetails(service))
+func Router(router *gin.RouterGroup, groupService models.GroupService, addressService models.AddressService) {
+	router.GET("/", handleSearch(groupService, addressService))
+	router.GET("/:name", handleGroupDetails(groupService, addressService))
 }

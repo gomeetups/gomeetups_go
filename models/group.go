@@ -6,8 +6,9 @@ import (
 	pq "github.com/lib/pq"
 )
 
+// Group Core model definition
 type Group struct {
-	GroupId         string         `json:"groupId" db:"group_id"`
+	GroupID         string         `json:"groupId" db:"group_id"`
 	Name            string         `json:"name" db:"name"`
 	Slug            string         `json:"slug" db:"slug"`
 	Description     string         `json:"description,omitempty" db:"description"`
@@ -20,14 +21,22 @@ type Group struct {
 	CreatedBy       string         `json:"createdBy" db:"created_by"`
 	UpdatedAt       time.Time      `json:"updatedAt" db:"updated_at"`
 	UpdatedBy       string         `json:"updatedBy" db:"updated_by"`
+
+	// Without a `pointer`, go will always create a new Group.Address
+	// Whiloi initializing object, `omitempty` will be ignored. This
+	// will cause junk data in the json output.
+	Address *Address `json:"address,omitempty" db:"-"`
 }
 
-type GroupSearchValidParams struct {
+// ValidGroupSearchParams Valid search parameters for the groups endpoint
+type ValidGroupSearchParams struct {
 	Name        string
 	Description string
 }
 
+// GroupService - Contains necessary methods to be implemented
+// by address group service
 type GroupService interface {
-	SearchGroups(filters *GroupSearchValidParams) (groups map[string]Group, err error)
-	GroupDetails(groupId string) (group Group, err error)
+	SearchGroups(filters *ValidGroupSearchParams) (groups map[string]*Group, err error)
+	GroupDetails(groupID string) (group Group, err error)
 }

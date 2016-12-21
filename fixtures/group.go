@@ -3,12 +3,12 @@ package fixtures
 import (
 	"time"
 
-	models "bitbucket.org/devmach/gomeetups/models"
+	"bitbucket.org/devmach/gomeetups/models"
 )
 
 var Groups = map[string]models.Group{
 	"6db72c07-1fdd-480e-b9af-7dd96efa4986": {
-		GroupId:     "6db72c07-1fdd-480e-b9af-7dd96efa4986",
+		GroupID:     "6db72c07-1fdd-480e-b9af-7dd96efa4986",
 		Name:        "GoLang NYC - Manhattan",
 		Slug:        "golang-nyc-manhattan",
 		Description: "Manhattan go users group",
@@ -22,12 +22,12 @@ var Groups = map[string]models.Group{
 		IsPublic:        true,
 		IsArchived:      false,
 		CreatedAt:       time.Now(),
-		CreatedBy:       "Aydin",
+		CreatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: asydin
 		UpdatedAt:       time.Now(),
-		UpdatedBy:       "Aydin",
+		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},
 	"1d7bffd6-80ab-48f1-b35f-96378f0e78a8": {
-		GroupId:     "1d7bffd6-80ab-48f1-b35f-96378f0e78a8",
+		GroupID:     "1d7bffd6-80ab-48f1-b35f-96378f0e78a8",
 		Name:        "GoLang NYC - Queens",
 		Slug:        "golang-nyc-queens",
 		Description: "Queens go users group",
@@ -39,8 +39,25 @@ var Groups = map[string]models.Group{
 		IsPublic:        true,
 		IsArchived:      false,
 		CreatedAt:       time.Now(),
-		CreatedBy:       "Aydin",
+		CreatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 		UpdatedAt:       time.Now(),
-		UpdatedBy:       "Aydin",
+		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
+	},
+	"75b7410a-f42d-4305-8372-439afb24f83f": {
+		GroupID:     "75b7410a-f42d-4305-8372-439afb24f83f",
+		Name:        "GoLang NYC - Brooklyn",
+		Slug:        "golang-nyc-brooklyn",
+		Description: "Brooklyn go users group",
+		Owner:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
+		Admins: []string{
+			"d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
+		},
+		JoinRestriction: "open",
+		IsPublic:        true,
+		IsArchived:      false,
+		CreatedAt:       time.Now(),
+		CreatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
+		UpdatedAt:       time.Now(),
+		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},
 }
