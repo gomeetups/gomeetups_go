@@ -5,6 +5,9 @@ import "time"
 // PhotoTypes ENUM for photo types...
 var PhotoTypes = map[string]string{
 	"GROUP": "group",
+	"EVENT": "event",
+	"SPACE": "space",
+	"USER":  "user",
 }
 
 // Photo Photo model
