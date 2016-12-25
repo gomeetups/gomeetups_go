@@ -24,7 +24,7 @@ func handleSearch(
 				idx++
 			}
 
-			addresses, _ := addressService.GetByGroupId(groupIds)
+			addresses, _ := addressService.GetByGroupID(groupIds)
 
 			for id := range groups {
 				if _, ok := addresses[id]; ok {
@@ -50,7 +50,7 @@ func handleGroupDetails(
 		name := c.Params.ByName("name")
 		if group, err := groupService.GroupDetails(name); err == nil {
 
-			addresses, _ := addressService.GetByGroupId([]string{group.GroupID})
+			addresses, _ := addressService.GetByGroupID([]string{group.GroupID})
 
 			if _, ok := addresses[group.GroupID]; ok {
 				group.Address = addresses[group.GroupID]
@@ -63,6 +63,7 @@ func handleGroupDetails(
 	}
 }
 
+// Router Contains routes for Group endpoints
 func Router(router *gin.RouterGroup, groupService models.GroupService, addressService models.AddressService) {
 	router.GET("/", handleSearch(groupService, addressService))
 	router.GET("/:name", handleGroupDetails(groupService, addressService))

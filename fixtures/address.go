@@ -17,9 +17,9 @@ import (
 
 var newYork, _ = time.LoadLocation("America/New_York")
 
-// Addresses - Contains address fixtures for groups, events and users....
-var Addresses = map[string]models.Address{
-	"e7b33956-c64c-4643-830d-e681663528e5": {
+// Addresses - Contains address fixtures for groups, events and users.... va
+var Addresses = []models.Address{
+	{
 		AddressID:        "e7b33956-c64c-4643-830d-e681663528e5",
 		AddressType:      "group",
 		BelongsTo:        "6db72c07-1fdd-480e-b9af-7dd96efa4986", // group: GoLang NYC - Manhattan
@@ -38,7 +38,7 @@ var Addresses = map[string]models.Address{
 		UpdatedAt:        time.Date(2016, time.December, 20, 7, 10, 0, 0, newYork),
 		UpdatedBy:        "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},
-	"15baeb85-ecee-4363-86c8-0133cea23809": {
+	{
 		AddressID:        "15baeb85-ecee-4363-86c8-0133cea23809",
 		AddressType:      "group",
 		BelongsTo:        "1d7bffd6-80ab-48f1-b35f-96378f0e78a8", // group: GoLang NYC - Manhattan

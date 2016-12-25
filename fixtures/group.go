@@ -6,8 +6,9 @@ import (
 	"bitbucket.org/devmach/gomeetups/models"
 )
 
-var Groups = map[string]models.Group{
-	"6db72c07-1fdd-480e-b9af-7dd96efa4986": {
+// Groups Contains fixtures for groups
+var Groups = []models.Group{
+	{
 		GroupID:     "6db72c07-1fdd-480e-b9af-7dd96efa4986",
 		Name:        "GoLang NYC - Manhattan",
 		Slug:        "golang-nyc-manhattan",
@@ -26,7 +27,7 @@ var Groups = map[string]models.Group{
 		UpdatedAt:       time.Now(),
 		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},
-	"1d7bffd6-80ab-48f1-b35f-96378f0e78a8": {
+	{
 		GroupID:     "1d7bffd6-80ab-48f1-b35f-96378f0e78a8",
 		Name:        "GoLang NYC - Queens",
 		Slug:        "golang-nyc-queens",
@@ -43,7 +44,7 @@ var Groups = map[string]models.Group{
 		UpdatedAt:       time.Now(),
 		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},
-	"75b7410a-f42d-4305-8372-439afb24f83f": {
+	{
 		GroupID:     "75b7410a-f42d-4305-8372-439afb24f83f",
 		Name:        "GoLang NYC - Brooklyn",
 		Slug:        "golang-nyc-brooklyn",

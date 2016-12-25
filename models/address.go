@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// AddressTypes ENUM for address types...
 var AddressTypes = map[string]string{
 	"GROUP": "group",
 }
@@ -31,6 +32,6 @@ type Address struct {
 // AddressService - Contains necessary methods to be implemented
 // by address service
 type AddressService interface {
-	GetByGroupId(groupIds []string) (addresses map[string]*Address, err error)
+	GetByGroupID(groupIds []string) (addresses map[string]*Address, err error)
 	Get(addressID string) (address Address, err error)
 }
