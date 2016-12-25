@@ -6,6 +6,7 @@ import (
 
 	"bitbucket.org/devmach/gomeetups/address"
 	"bitbucket.org/devmach/gomeetups/group"
+	"bitbucket.org/devmach/gomeetups/photo"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +18,8 @@ func main() {
 	group.Router(router.Group(
 		"/api/v1/groups"),
 		&group.ServiceMemory{},
-		&address.ServiceMemory{})
+		&address.ServiceMemory{},
+		&photo.ServiceMemory{})
 
 	http.ListenAndServe(":3000", router)
 }
