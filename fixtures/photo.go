@@ -19,7 +19,7 @@ var Photos = []models.Photo{
 	{
 		PhotoID:    "911c22ab-398c-4f60-b8e8-1df630741503",
 		PhotoType:  "group",
-		BelongsTo:  "1d7bffd6-80ab-48f1-b35f-96378f0e78a8", // group: GoLang NYC - Manhattan
+		BelongsTo:  "6db72c07-1fdd-480e-b9af-7dd96efa4986", // group: GoLang NYC - Manhattan
 		Resolution: "thumbnail",
 		URL:        "https://unsplash.it/120/120",
 		CreatedAt:  time.Now(),

@@ -28,8 +28,8 @@ func (*ServiceMemory) FindPhotos(photoType string, belongsTo string, resolution 
 }
 
 // GetByGroupID Find all photos for given groups
-func (*ServiceMemory) GetByGroupID(groupIds []string) (photos map[string]*models.Photo, err error) {
-	photos = make(map[string]*models.Photo)
+func (*ServiceMemory) GetByGroupID(groupIds []string) (photos map[string][]*models.Photo, err error) {
+	photos = make(map[string][]*models.Photo)
 	groupMap := make(map[string]bool, len(groupIds))
 
 	// Walk over groupIds and add an element into the lookup map
@@ -46,7 +46,7 @@ func (*ServiceMemory) GetByGroupID(groupIds []string) (photos map[string]*models
 			continue
 		}
 
-		photos[photo.BelongsTo] = &fixtures.Photos[idx]
+		photos[photo.BelongsTo] = append(photos[photo.BelongsTo], &fixtures.Photos[idx])
 	}
 
 	return photos, nil

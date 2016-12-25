@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 // PhotoTypes ENUM for photo types...
 var PhotoTypes = map[string]string{
@@ -25,5 +23,5 @@ type Photo struct {
 // PhotoService Handles photo related operations
 type PhotoService interface {
 	FindPhotos(photoType string, belongsTo string, resolution string) (photos map[string]*Photo, err error)
-	GetByGroupID(groupIds []string) (photos map[string]*Photo, err error)
+	GetByGroupID(groupIds []string) (photos map[string][]*Photo, err error)
 }
