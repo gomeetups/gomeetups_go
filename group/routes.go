@@ -5,10 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func handleSearch(
-	groupService models.GroupService,
-	addressService models.AddressService,
-	photoService models.PhotoService) gin.HandlerFunc {
+func handleSearch(services *models.Services) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		var params = models.ValidGroupSearchParams{
@@ -16,7 +13,7 @@ func handleSearch(
 			Description: c.DefaultQuery("description", ""),
 		}
 
-		if groups, err := groupService.SearchGroups(&params); err == nil {
+		if groups, err := services.GroupService.SearchGroups(&params); err == nil {
 			var idx = 0
 			var groupIds = make([]string, len(groups))
 
@@ -25,8 +22,8 @@ func handleSearch(
 				idx++
 			}
 
-			addresses, _ := addressService.GetByGroupID(groupIds)
-			photos, _ := photoService.GetByGroupID(groupIds)
+			addresses, _ := services.AddressService.GetByGroupID(groupIds)
+			photos, _ := services.PhotoService.GetByGroupID(groupIds)
 
 			for id := range groups {
 				if _, ok := addresses[id]; ok {
@@ -50,16 +47,13 @@ func handleSearch(
 	}
 }
 
-func handleGroupDetails(
-	groupService models.GroupService,
-	addressService models.AddressService,
-	photoService models.PhotoService) gin.HandlerFunc {
+func handleGroupDetails(services *models.Services) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		groupID := c.Params.ByName("groupID")
-		if group, err := groupService.Get(groupID); err == nil {
+		if group, err := services.GroupService.Get(groupID); err == nil {
 
-			addresses, _ := addressService.GetByGroupID([]string{group.GroupID})
-			photos, _ := photoService.GetByGroupID([]string{group.GroupID})
+			addresses, _ := services.AddressService.GetByGroupID([]string{group.GroupID})
+			photos, _ := services.PhotoService.GetByGroupID([]string{group.GroupID})
 
 			if _, ok := addresses[group.GroupID]; ok {
 				group.Address = addresses[group.GroupID]
@@ -77,7 +71,7 @@ func handleGroupDetails(
 }
 
 // Router Contains routes for Group endpoints
-func Router(router *gin.RouterGroup, groupService models.GroupService, addressService models.AddressService, photoService models.PhotoService) {
-	router.GET("/", handleSearch(groupService, addressService, photoService))
-	router.GET("/:groupID", handleGroupDetails(groupService, addressService, photoService))
+func Router(router *gin.RouterGroup, services *models.Services) {
+	router.GET("/", handleSearch(services))
+	router.GET("/:groupID", handleGroupDetails(services))
 }
