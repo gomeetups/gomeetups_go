@@ -26,6 +26,7 @@ type Group struct {
 	// Whiloi initializing object, `omitempty` will be ignored. This
 	// will cause junk data in the json output.
 	Address *Address `json:"address,omitempty" db:"-"`
+	Photos  []*Photo `json:"photos,omitempty" db:"-"`
 }
 
 // ValidGroupSearchParams Valid search parameters for the groups endpoint

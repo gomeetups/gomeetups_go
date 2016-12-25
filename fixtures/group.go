@@ -23,7 +23,7 @@ var Groups = []models.Group{
 		IsPublic:        true,
 		IsArchived:      false,
 		CreatedAt:       time.Now(),
-		CreatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: asydin
+		CreatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 		UpdatedAt:       time.Now(),
 		UpdatedBy:       "d468bd91-39a2-46a1-99c3-4c4b0f20e78a", // user: aydin
 	},

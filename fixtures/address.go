@@ -15,8 +15,6 @@ import (
 	models "bitbucket.org/devmach/gomeetups/models"
 )
 
-var newYork, _ = time.LoadLocation("America/New_York")
-
 // Addresses - Contains address fixtures for groups, events and users.... va
 var Addresses = []models.Address{
 	{
