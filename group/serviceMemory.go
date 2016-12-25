@@ -47,8 +47,8 @@ func (*ServiceMemory) SearchGroups(filter *models.ValidGroupSearchParams) (group
 	return groups, nil
 }
 
-//GroupDetails Fetches group details for given group Id
-func (*ServiceMemory) GroupDetails(groupID string) (group models.Group, err error) {
+//Get Fetches group details for given group Id
+func (*ServiceMemory) Get(groupID string) (group models.Group, err error) {
 
 	// Walk over groups fixtures and return group with it's address as soon as
 	// found

@@ -47,8 +47,8 @@ func handleGroupDetails(
 	groupService models.GroupService,
 	addressService models.AddressService) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		name := c.Params.ByName("name")
-		if group, err := groupService.GroupDetails(name); err == nil {
+		groupID := c.Params.ByName("groupID")
+		if group, err := groupService.Get(groupID); err == nil {
 
 			addresses, _ := addressService.GetByGroupID([]string{group.GroupID})
 
@@ -66,5 +66,5 @@ func handleGroupDetails(
 // Router Contains routes for Group endpoints
 func Router(router *gin.RouterGroup, groupService models.GroupService, addressService models.AddressService) {
 	router.GET("/", handleSearch(groupService, addressService))
-	router.GET("/:name", handleGroupDetails(groupService, addressService))
+	router.GET("/:groupID", handleGroupDetails(groupService, addressService))
 }

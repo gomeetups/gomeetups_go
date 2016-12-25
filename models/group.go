@@ -38,5 +38,5 @@ type ValidGroupSearchParams struct {
 // by address group service
 type GroupService interface {
 	SearchGroups(filters *ValidGroupSearchParams) (groups map[string]*Group, err error)
-	GroupDetails(groupID string) (group Group, err error)
+	Get(groupID string) (group Group, err error)
 }
