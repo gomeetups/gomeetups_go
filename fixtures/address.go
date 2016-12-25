@@ -74,4 +74,23 @@ var Addresses = []models.Address{
 		UpdatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
 		UpdatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
 	},
+	{
+		AddressID:        "bc86ea5d-6ef8-4a8d-a585-4a0161ebdf99",
+		AddressType:      "space",
+		BelongsTo:        "77ab205b-494e-4012-a1f8-96a38e1c3e52", // space: Bohemian Hall & Beer Garden
+		Lat:              40.77273,
+		Long:             -73.915772,
+		AddressLine1:     models.NullString{sql.NullString{String: "2919 24th Ave", Valid: true}},
+		FormattedAddress: models.NullString{sql.NullString{String: "Astoria\n2919 24th Ave\nAstoria, NY 11102", Valid: true}},
+		Country:          models.NullString{sql.NullString{String: "US", Valid: true}},
+		State:            models.NullString{sql.NullString{String: "NY", Valid: true}},
+		City:             models.NullString{sql.NullString{String: "New York", Valid: true}},
+		ZipCode:          models.NullString{sql.NullString{String: "11102", Valid: true}},
+		TimeZone:         models.NullString{sql.NullString{String: "America/New_York", Valid: true}},
+		MapsLink:         models.NullString{sql.NullString{String: "https://www.google.com/maps/place/Bohemian+Hall+and+Beer+Garden/@40.772838,-73.915595,15z/data=!4m2!3m1!1s0x0:0x73ceb523ea2222e8?sa=X&ved=0ahUKEwjh0LzGhJDRAhWLy4MKHa2aBUAQ_BIIezAR", Valid: true}},
+		CreatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
+		CreatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
+		UpdatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
+		UpdatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
+	},
 }

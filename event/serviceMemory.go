@@ -31,7 +31,7 @@ func (*ServiceMemory) SearchEvents(filters *models.ValidEventSearchParams) (even
 				doesMatch = true
 			}
 
-			if !doesMatch && filters.Description != "" && strings.Contains(strings.ToLower(event.Name), strings.ToLower(filters.Description)) {
+			if !doesMatch && filters.Description != "" && strings.Contains(strings.ToLower(event.Description), strings.ToLower(filters.Description)) {
 				doesMatch = true
 			}
 
