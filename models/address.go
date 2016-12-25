@@ -5,12 +5,14 @@ import "time"
 // AddressTypes ENUM for address types...
 var AddressTypes = map[string]string{
 	"GROUP": "group",
+	"SPACE": "space",
+	"USER":  "user",
 }
 
 // Address Defines address model user by groups, events and users
 type Address struct {
 	AddressID        string     `json:"addressId,omitempty" db:"address_id"`
-	AddressType      string     `json:"addressType,omitempty" db:"address_type"` // group, event, user
+	AddressType      string     `json:"addressType,omitempty" db:"address_type"` // group, space, user
 	BelongsTo        string     `json:"belongsTo,omitempty" db:"belongs_to"`
 	Lat              float64    `json:"lat,omitempty" db:"lat"`
 	Long             float64    `json:"long,omitempty" db:"long"`

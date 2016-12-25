@@ -55,4 +55,23 @@ var Addresses = []models.Address{
 		UpdatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
 		UpdatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
 	},
+	{
+		AddressID:        "bd0549d6-2eb0-43af-a9ea-dd5e824d479b",
+		AddressType:      "space",
+		BelongsTo:        "863137fc-3cee-4e8c-ae49-0375fcbe2707", // space: Moma NYC
+		Lat:              40.7614124038247,
+		Long:             -73.9775069992493,
+		AddressLine1:     models.NullString{sql.NullString{String: "11 W 53rd St", Valid: true}},
+		FormattedAddress: models.NullString{sql.NullString{String: "Midtown West\n11 W 53rd St\nNew York, NY 10019", Valid: true}},
+		Country:          models.NullString{sql.NullString{String: "US", Valid: true}},
+		State:            models.NullString{sql.NullString{String: "NY", Valid: true}},
+		City:             models.NullString{sql.NullString{String: "New York", Valid: true}},
+		ZipCode:          models.NullString{sql.NullString{String: "10019", Valid: true}},
+		TimeZone:         models.NullString{sql.NullString{String: "America/New_York", Valid: true}},
+		MapsLink:         models.NullString{sql.NullString{String: "https://www.google.com/maps/place/The+Museum+of+Modern+Art/@40.7614367,-73.9798103,17z/data=!3m2!4b1!5s0x89c258fbd5f614c7:0x7edf0a3af8aa9fae!4m5!3m4!1s0x89c258f97bdb102b:0xea9f8fc0b3ffff55!8m2!3d40.7614327!4d-73.9776216", Valid: true}},
+		CreatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
+		CreatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
+		UpdatedAt:        time.Date(2016, time.December, 20, 8, 30, 0, 0, newYork),
+		UpdatedBy:        "478f4b8e-b231-4efe-828b-f63b877fbbe3", // user: arc
+	},
 }
