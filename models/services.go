@@ -7,4 +7,5 @@ type Services struct {
 	PhotoService   PhotoService
 	SpaceService   SpaceService
 	EventService   EventService
+	UserService    UserService
 }
