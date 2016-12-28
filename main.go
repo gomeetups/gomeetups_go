@@ -10,6 +10,7 @@ import (
 	"bitbucket.org/devmach/gomeetups/models"
 	"bitbucket.org/devmach/gomeetups/photo"
 	"bitbucket.org/devmach/gomeetups/space"
+	"bitbucket.org/devmach/gomeetups/user"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,10 +25,12 @@ func main() {
 		PhotoService:   &photo.ServiceMemory{},
 		SpaceService:   &space.ServiceMemory{},
 		EventService:   &event.ServiceMemory{},
+		UserService:    &user.ServiceMemory{},
 	}
 
 	group.Router(router.Group("/api/v1/groups"), &services)
 	event.Router(router.Group("/api/v1/events"), &services)
+	user.Router(router.Group("/api/v1/users"), &services)
 
 	http.ListenAndServe(":3000", router)
 }
