@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"bitbucket.org/devmach/gomeetups/fixtures"
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/fixtures"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 //ServiceMemory In memory groups service

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/models"
 	"github.com/gin-gonic/gin"
 )
 

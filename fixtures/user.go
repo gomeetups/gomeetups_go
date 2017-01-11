@@ -3,7 +3,7 @@ package fixtures
 import (
 	"time"
 
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 // Users Contains user fixtures for memory service
