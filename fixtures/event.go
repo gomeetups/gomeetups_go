@@ -3,7 +3,7 @@ package fixtures
 import (
 	"time"
 
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 // "62036543-292e-4751-ace0-13624d09c79e"

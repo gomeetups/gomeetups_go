@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"time"
 
-	"bitbucket.org/devmach/gomeetups/address"
-	"bitbucket.org/devmach/gomeetups/event"
-	"bitbucket.org/devmach/gomeetups/group"
-	"bitbucket.org/devmach/gomeetups/models"
-	"bitbucket.org/devmach/gomeetups/photo"
-	"bitbucket.org/devmach/gomeetups/space"
-	"bitbucket.org/devmach/gomeetups/user"
+	"github.com/gomeetups/gomeetups/address"
+	"github.com/gomeetups/gomeetups/event"
+	"github.com/gomeetups/gomeetups/group"
+	"github.com/gomeetups/gomeetups/models"
+	"github.com/gomeetups/gomeetups/photo"
+	"github.com/gomeetups/gomeetups/space"
+	"github.com/gomeetups/gomeetups/user"
 	"github.com/gin-gonic/gin"
 )
 

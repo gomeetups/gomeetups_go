@@ -3,7 +3,7 @@ package fixtures
 import (
 	"time"
 
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 // "1d7bffd6-80ab-48f1-b35f-96378f0e78a8", // group: GoLang NYC - Manhattan

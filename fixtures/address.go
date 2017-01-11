@@ -12,7 +12,7 @@ import (
 	"database/sql"
 	"time"
 
-	models "bitbucket.org/devmach/gomeetups/models"
+	models "github.com/gomeetups/gomeetups/models"
 )
 
 // Addresses - Contains address fixtures for groups, events and users.... va

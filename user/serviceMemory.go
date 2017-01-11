@@ -5,8 +5,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"bitbucket.org/devmach/gomeetups/fixtures"
-	"bitbucket.org/devmach/gomeetups/models"
+	"github.com/gomeetups/gomeetups/fixtures"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 // ServiceMemory User store uses an in memory store
