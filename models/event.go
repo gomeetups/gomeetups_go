@@ -19,6 +19,7 @@ type Event struct {
 	Status               string         `json:"status" db:"status"`                                //	draft, active, done, cancelled, deleted
 	AttendeeLimit        int64          `json:"attendeeLimit" db:"attendee_limit"`                 // How many people can attend to this event
 	AdditionalGuestLimit int64          `json:"additionalGuestLimmit" db:"addiitonal_guest_limit"` // how many people a guest can bring with her
+	AttendeeCount        int64          `json:"attendeeCount,omitempty" db:"attendee_count"`
 	IsPublic             bool           `json:"isPublic" db:"is_public"`
 	IsArchived           bool           `json:"isArchived" db:"is_archived"`
 	CreatedAt            time.Time      `json:"createdAt" db:"created_at"`
@@ -28,6 +29,7 @@ type Event struct {
 
 	Space  *Space   `json:"space,omitempty" db:"-"`
 	Photos []*Photo `json:"photos,omitempty" db:"-"`
+	Rsvps  []*Rsvp  `json:"rsvps,omitempty" db:"-"`
 }
 
 // ValidEventSearchParams Valid search parameters for the events endpoint

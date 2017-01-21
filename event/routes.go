@@ -1,8 +1,8 @@
 package event
 
 import (
-	"github.com/gomeetups/gomeetups/models"
 	"github.com/gin-gonic/gin"
+	"github.com/gomeetups/gomeetups/models"
 )
 
 func handleSearch(services *models.Services) gin.HandlerFunc {
@@ -52,6 +52,8 @@ func handleEventDetails(services *models.Services) gin.HandlerFunc {
 			if space, _ := services.SpaceService.Get(event.SpaceID); space != nil {
 				event.Space = space
 			}
+
+			event.Rsvps, _ = services.RsvpService.GetByEventID(event.EventID)
 
 			c.JSON(200, gin.H{"event": event})
 		} else {
