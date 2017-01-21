@@ -8,4 +8,5 @@ type Services struct {
 	SpaceService   SpaceService
 	EventService   EventService
 	UserService    UserService
+	RsvpService    RsvpService
 }
