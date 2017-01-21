@@ -37,6 +37,6 @@ type Rsvp struct {
 
 // RsvpService Handles Rsvp related operations
 type RsvpService interface {
-	// GetAll returns all Rsvps for given event
-	GetAll(EventID string) (rsvps []Rsvp, err error)
+	// GetByEventID returns all Rsvps for given event
+	GetByEventID(eventID string) (rsvps []*Rsvp, err error)
 }

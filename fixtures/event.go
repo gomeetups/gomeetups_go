@@ -6,8 +6,6 @@ import (
 	"github.com/gomeetups/gomeetups/models"
 )
 
-// "62036543-292e-4751-ace0-13624d09c79e"
-// "309a4f28-249f-4471-8a97-60e33e980f34"
 // "972d9fe9-8e41-4fda-a8e9-ec7bb8d17c25"
 
 // "6db72c07-1fdd-480e-b9af-7dd96efa4986", // group: GoLang NYC - Manhattan
@@ -39,6 +37,7 @@ var Events = []models.Event{
 		Status:               "active",
 		AttendeeLimit:        100,
 		AdditionalGuestLimit: 2,
+		AttendeeCount:        3,
 		IsPublic:             true,
 		IsArchived:           false,
 		CreatedAt:            time.Now(),

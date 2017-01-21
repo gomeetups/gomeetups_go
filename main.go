@@ -9,8 +9,10 @@ import (
 	"github.com/gomeetups/gomeetups/group"
 	"github.com/gomeetups/gomeetups/models"
 	"github.com/gomeetups/gomeetups/photo"
+	"github.com/gomeetups/gomeetups/rsvp"
 	"github.com/gomeetups/gomeetups/space"
 	"github.com/gomeetups/gomeetups/user"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,6 +28,7 @@ func main() {
 		SpaceService:   &space.ServiceMemory{},
 		EventService:   &event.ServiceMemory{},
 		UserService:    &user.ServiceMemory{},
+		RsvpService:    &rsvp.ServiceMemory{},
 	}
 
 	group.Router(router.Group("/api/v1/groups"), &services)
