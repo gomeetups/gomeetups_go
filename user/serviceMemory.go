@@ -20,7 +20,7 @@ func (*ServiceMemory) GetByEmail(email string) (user *models.User, err error) {
 		}
 	}
 
-	return nil, models.ErrUserNotFound
+	return nil, models.ErrRecordNotFound
 }
 
 // GetByID Returns user data for given user id
@@ -31,7 +31,7 @@ func (*ServiceMemory) GetByID(userID string) (user *models.User, err error) {
 		}
 	}
 
-	return nil, models.ErrUserNotFound
+	return nil, models.ErrRecordNotFound
 }
 
 // VerifyPassword Returns user data for given user email
@@ -51,7 +51,7 @@ func (*ServiceMemory) VerifyPassword(identifier string, plainTextPassword string
 	}
 
 	if user == nil {
-		return models.ErrUserNotFound
+		return models.ErrRecordNotFound
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte((*user).Password), []byte(plainTextPassword)) != nil {

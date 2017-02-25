@@ -41,6 +41,7 @@ func handleSearch(services *models.Services) http.HandlerFunc {
 			})
 
 		} else {
+			render.Status(r, http.StatusInternalServerError)
 			render.JSON(w, r, map[string]interface{}{
 				"error": err,
 			})
@@ -64,6 +65,13 @@ func handleEventDetails(services *models.Services) http.HandlerFunc {
 				"event": event,
 			})
 		} else {
+			status := http.StatusInternalServerError
+
+			if err == models.ErrRecordNotFound {
+				status = http.StatusNotFound
+			}
+			render.Status(r, status)
+
 			render.JSON(w, r, map[string]interface{}{
 				"error": err.Error(),
 			})

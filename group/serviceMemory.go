@@ -1,7 +1,6 @@
 package group
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/gomeetups/gomeetups/fixtures"
@@ -58,5 +57,5 @@ func (*ServiceMemory) Get(groupID string) (group models.Group, err error) {
 		}
 	}
 
-	return models.Group{}, errors.New("Not found!")
+	return models.Group{}, models.ErrRecordNotFound
 }

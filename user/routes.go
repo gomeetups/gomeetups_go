@@ -53,7 +53,7 @@ func handleUserDetails(services *models.Services) http.HandlerFunc {
 		} else {
 			status := http.StatusInternalServerError
 
-			if err == models.ErrUserNotFound {
+			if err == models.ErrRecordNotFound {
 				status = http.StatusNotFound
 			}
 
