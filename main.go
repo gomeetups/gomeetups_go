@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/Sirupsen/logrus"
@@ -17,6 +18,7 @@ import (
 	"github.com/gomeetups/gomeetups/space"
 	"github.com/gomeetups/gomeetups/user"
 	"github.com/pressly/chi"
+	"github.com/pressly/chi/middleware"
 	"github.com/pressly/lg"
 )
 
@@ -47,6 +49,13 @@ func main() {
 	logger := logrus.New()
 	logger.Formatter = &logrus.JSONFormatter{}
 
+	logFile, logErr := os.OpenFile("output.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	if logErr == nil {
+		logger.Out = logFile
+	} else {
+		logger.Info("Failed to log to file, using default stderr")
+	}
+
 	lg.RedirectStdlogOutput(logger)
 	lg.DefaultLogger = logger
 
@@ -58,11 +67,17 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(lg.RequestLogger(logger))
 
+	if strings.ToLower(os.Getenv("ENV")) != "prod" {
+		router.Use(middleware.Logger)
+	}
+
 	router.Route("/api/v1", func(router chi.Router) {
 		router.Mount("/groups", group.Router(&services))
 		router.Mount("/events", event.Router(&services))
 		router.Mount("/users", user.Router(&services))
 	})
+
+	router.Mount("/debug", middleware.Profiler())
 
 	service := chi.ServerBaseContext(router, serverCtx)
 	http.ListenAndServe(getListenAddr(), service)

@@ -2,3 +2,4 @@ gomeetups
 vendor
 .vscode
 debug
+*.log
