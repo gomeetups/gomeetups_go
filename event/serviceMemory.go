@@ -1,7 +1,6 @@
 package event
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/gomeetups/gomeetups/fixtures"
@@ -56,5 +55,5 @@ func (*ServiceMemory) Get(eventID string) (event models.Event, err error) {
 		}
 	}
 
-	return models.Event{}, errors.New("Not found!")
+	return models.Event{}, models.ErrRecordNotFound
 }

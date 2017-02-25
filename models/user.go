@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	ErrUserNotFound        = errors.New("User not found!")
 	ErrUserInvalidParam    = errors.New("Invalid parameter!")
 	ErrUserInvalidPassword = errors.New("Invalid Password!")
 )

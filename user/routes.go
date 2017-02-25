@@ -1,15 +1,18 @@
 package user
 
 import (
+	"net/http"
+
 	"github.com/gomeetups/gomeetups/models"
-	"github.com/gin-gonic/gin"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/render"
 )
 
-func handleSearch(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func handleSearch(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
 		var params = models.ValidUserSearchParams{
-			DisplayName: c.DefaultQuery("displayName", ""),
+			DisplayName: r.URL.Query().Get("displayName"),
 		}
 
 		if users, err := services.UserService.Search(&params); err == nil {
@@ -22,39 +25,53 @@ func handleSearch(services *models.Services) gin.HandlerFunc {
 				scrubbedData[idx] = user
 			}
 
-			c.JSON(200, gin.H{
+			render.JSON(w, r, map[string]interface{}{
 				"entries": scrubbedData,
 			})
 
 		} else {
-			c.JSON(404, gin.H{"error": err.Error()})
+			render.Status(r, http.StatusInternalServerError)
+			render.JSON(w, r, map[string]interface{}{
+				"error": err.Error(),
+			})
 		}
 
 	}
 }
 
-func handleUserDetails(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userID := c.Params.ByName("userID")
+func handleUserDetails(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userID := chi.URLParam(r, "userID")
 		if record, err := services.UserService.GetByID(userID); err == nil {
 			user := *record
 			user.Email = "***"
 
-			c.JSON(200, gin.H{"user": user})
-		} else {
-			statusCode := 500
+			render.JSON(w, r, map[string]interface{}{
+				"user": user,
+			})
 
-			if err == models.ErrUserNotFound {
-				statusCode = 404
+		} else {
+			status := http.StatusInternalServerError
+
+			if err == models.ErrRecordNotFound {
+				status = http.StatusNotFound
 			}
 
-			c.JSON(statusCode, gin.H{"error": err.Error()})
+			render.Status(r, status)
+			render.JSON(w, r, map[string]interface{}{
+				"error": err.Error(),
+			})
+
 		}
 	}
 }
 
-// Router Contains routes for Group endpoints
-func Router(router *gin.RouterGroup, services *models.Services) {
-	router.GET("/", handleSearch(services))
-	router.GET("/:userID", handleUserDetails(services))
+// Router Contains routes for user endpoints
+func Router(services *models.Services) http.Handler {
+	router := chi.NewRouter()
+
+	router.Get("/", handleSearch(services))
+	router.Get("/:userID", handleUserDetails(services))
+
+	return router
 }

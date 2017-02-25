@@ -1,17 +1,20 @@
 package event
 
 import (
-	"github.com/gin-gonic/gin"
+	"net/http"
+
 	"github.com/gomeetups/gomeetups/models"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/render"
 )
 
-func handleSearch(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func handleSearch(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
 		var params = models.ValidEventSearchParams{
-			Name:        c.DefaultQuery("name", ""),
-			Description: c.DefaultQuery("description", ""),
-			GroupID:     c.DefaultQuery("group", ""),
+			Name:        r.URL.Query().Get("name"),
+			Description: r.URL.Query().Get("description"),
+			GroupID:     r.URL.Query().Get("group"),
 		}
 
 		if events, err := services.EventService.SearchEvents(&params); err == nil {
@@ -33,20 +36,23 @@ func handleSearch(services *models.Services) gin.HandlerFunc {
 				}
 			}
 
-			c.JSON(200, gin.H{
+			render.JSON(w, r, map[string]interface{}{
 				"entries": events,
 			})
 
 		} else {
-			c.JSON(200, gin.H{"error": err})
+			render.Status(r, http.StatusInternalServerError)
+			render.JSON(w, r, map[string]interface{}{
+				"error": err,
+			})
 		}
 
 	}
 }
 
-func handleEventDetails(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		eventID := c.Params.ByName("eventID")
+func handleEventDetails(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		eventID := chi.URLParam(r, "eventID")
 		if event, err := services.EventService.Get(eventID); err == nil {
 
 			if space, _ := services.SpaceService.Get(event.SpaceID); space != nil {
@@ -55,15 +61,30 @@ func handleEventDetails(services *models.Services) gin.HandlerFunc {
 
 			event.Rsvps, _ = services.RsvpService.GetByEventID(event.EventID)
 
-			c.JSON(200, gin.H{"event": event})
+			render.JSON(w, r, map[string]interface{}{
+				"event": event,
+			})
 		} else {
-			c.JSON(404, gin.H{"error": err.Error()})
+			status := http.StatusInternalServerError
+
+			if err == models.ErrRecordNotFound {
+				status = http.StatusNotFound
+			}
+			render.Status(r, status)
+
+			render.JSON(w, r, map[string]interface{}{
+				"error": err.Error(),
+			})
 		}
 	}
 }
 
-// Router Contains routes for Group endpoints
-func Router(router *gin.RouterGroup, services *models.Services) {
-	router.GET("/", handleSearch(services))
-	router.GET("/:eventID", handleEventDetails(services))
+// Router Contains routes for event endpoints
+func Router(services *models.Services) http.Handler {
+	router := chi.NewRouter()
+
+	router.Get("/", handleSearch(services))
+	router.Get("/:eventID", handleEventDetails(services))
+
+	return router
 }
