@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/gomeetups/gomeetups/address"
 	"github.com/gomeetups/gomeetups/event"
 	"github.com/gomeetups/gomeetups/group"
@@ -12,15 +16,24 @@ import (
 	"github.com/gomeetups/gomeetups/rsvp"
 	"github.com/gomeetups/gomeetups/space"
 	"github.com/gomeetups/gomeetups/user"
-
-	"github.com/gin-gonic/gin"
+	"github.com/pressly/chi"
+	"github.com/pressly/lg"
 )
 
 var newYork, _ = time.LoadLocation("America/New_York")
 
-func main() {
-	router := gin.Default()
+func getListenAddr() string {
+	PORT := os.Getenv("PORT")
+	HOST := os.Getenv("HOST")
 
+	if PORT == "" {
+		PORT = "5000"
+	}
+
+	return fmt.Sprintf("%s:%s", HOST, PORT)
+}
+
+func main() {
 	services := models.Services{
 		GroupService:   &group.ServiceMemory{},
 		AddressService: &address.ServiceMemory{},
@@ -31,9 +44,26 @@ func main() {
 		RsvpService:    &rsvp.ServiceMemory{},
 	}
 
-	group.Router(router.Group("/api/v1/groups"), &services)
-	event.Router(router.Group("/api/v1/events"), &services)
-	user.Router(router.Group("/api/v1/users"), &services)
+	logger := logrus.New()
+	logger.Formatter = &logrus.JSONFormatter{}
 
-	http.ListenAndServe(":3000", router)
+	lg.RedirectStdlogOutput(logger)
+	lg.DefaultLogger = logger
+
+	serverCtx := context.Background()
+	serverCtx = lg.WithLoggerContext(serverCtx, logger)
+
+	lg.Log(serverCtx).Infof("Listening on %s", getListenAddr())
+
+	router := chi.NewRouter()
+	router.Use(lg.RequestLogger(logger))
+
+	router.Route("/api/v1", func(router chi.Router) {
+		router.Mount("/groups", group.Router(&services))
+		router.Mount("/events", event.Router(&services))
+		router.Mount("/users", user.Router(&services))
+	})
+
+	service := chi.ServerBaseContext(router, serverCtx)
+	http.ListenAndServe(getListenAddr(), service)
 }

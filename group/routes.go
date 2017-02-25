@@ -1,16 +1,19 @@
 package group
 
 import (
+	"net/http"
+
 	"github.com/gomeetups/gomeetups/models"
-	"github.com/gin-gonic/gin"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/render"
 )
 
-func handleSearch(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func handleSearch(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
 		var params = models.ValidGroupSearchParams{
-			Name:        c.DefaultQuery("name", ""),
-			Description: c.DefaultQuery("description", ""),
+			Name:        r.URL.Query().Get("name"),
+			Description: r.URL.Query().Get("description"),
 		}
 
 		if groups, err := services.GroupService.SearchGroups(&params); err == nil {
@@ -36,20 +39,22 @@ func handleSearch(services *models.Services) gin.HandlerFunc {
 
 			}
 
-			c.JSON(200, gin.H{
+			render.JSON(w, r, map[string]interface{}{
 				"entries": groups,
 			})
 
 		} else {
-			c.JSON(200, gin.H{"error": err})
+			render.JSON(w, r, map[string]interface{}{
+				"error": err,
+			})
 		}
 
 	}
 }
 
-func handleGroupDetails(services *models.Services) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		groupID := c.Params.ByName("groupID")
+func handleGroupDetails(services *models.Services) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		groupID := chi.URLParam(r, "groupID")
 		if group, err := services.GroupService.Get(groupID); err == nil {
 
 			addresses, _ := services.AddressService.GetByGroupID([]string{group.GroupID})
@@ -63,15 +68,24 @@ func handleGroupDetails(services *models.Services) gin.HandlerFunc {
 				group.Photos = photos[group.GroupID]
 			}
 
-			c.JSON(200, gin.H{"group": group})
+			render.JSON(w, r, map[string]interface{}{
+				"group": group,
+			})
+
 		} else {
-			c.JSON(404, gin.H{"error": err.Error()})
+			render.JSON(w, r, map[string]interface{}{
+				"error": err.Error(),
+			})
 		}
 	}
 }
 
 // Router Contains routes for Group endpoints
-func Router(router *gin.RouterGroup, services *models.Services) {
-	router.GET("/", handleSearch(services))
-	router.GET("/:groupID", handleGroupDetails(services))
+func Router(services *models.Services) http.Handler {
+	router := chi.NewRouter()
+
+	router.Get("/", handleSearch(services))
+	router.Get("/:groupID", handleGroupDetails(services))
+
+	return router
 }
